@@ -1,0 +1,31 @@
+{
+	"name": "sublime/omnipay-sublimetest",
+	"type": "library",
+	"description": "Sublime Test Gateway for Omnipay payment processing library",
+	"keywords": [
+		"gateway",
+		"merchant",
+		"omnipay",
+		"pay",
+		"payment",
+		"purchase"
+	],
+	"homepage": "https://github.com/jadedViper/omnipay-sublimetest",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Sharif Corbic",
+			"email": "sharif.corbic@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-0": { "Omnipay\\SublimeTest\\" : "src/" }
+	},
+	"require": {
+		"omnipay/common": "~2.0"
+	},
+	"require-dev": {
+		"omnipay/tests": "~2.0"
+	}
+}
+

@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Date: Fri, 15 Feb 2013 18:38:31 GMT
+Server: Apache
+Content-Length: 62
+Connection: close
+Content-Type: application/json; charset=utf-8
+
+{
+       "status": "EXC",
+       "msg": "Purchase Failed"
+}
