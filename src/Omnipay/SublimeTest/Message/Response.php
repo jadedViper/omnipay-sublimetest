@@ -17,9 +17,12 @@ class Response extends AbstractResponse
     }
 
     public function isSuccessful(){
-        return !isset($this->data['status']) && isset($this->data['mxsid']);
+        return !isset($this->data['status']) && isset($this->data[0]['mxsid']);
     }
 
+    public function getResponse(){
+        return $this->data;
+    }
     public function getResponseJson(){
         return json_encode($this->data);
     }
@@ -28,6 +31,9 @@ class Response extends AbstractResponse
         return isset($this->data['status']) ? $this->data['status'] : null;
     }
     public function getMessage(){
-        return $this->data['status']=='EXC' && isset($this->data['msg']) ? $this->data['msg'] : null;
+        if(isset($this->data['status'])){
+            return $this->data['status']=='EXC' && isset($this->data['msg']) ? $this->data['msg'] : null;    
+        }
+        return null;
     }
 }

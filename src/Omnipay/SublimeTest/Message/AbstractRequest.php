@@ -60,19 +60,28 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     }
         
     public function setAddfee($value) {
-        $this->setParameter('addfree', $value);
+        $this->setParameter('addfee', $value);
     
         return $this;
     }
 
     public function getAddfee() {
-        return $this->getParameter('addfree');
+        return $this->getParameter('addfee');
     }
        
     public function getCart(){
         return $this->getParameter('cart');
     }
-    
+
+    public function setCurrencycode($value) {
+        $this->setParameter('currencycode', $value);
+        return $this;
+    }
+
+    public function getCurrencycode() {
+        return $this->getParameter('currencycode');
+    }
+
     public function setCart($value) {
         $this->setParameter('cart', $value);
         
@@ -98,11 +107,14 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         
         return $this;
     }   
-    
+    protected function getEndPont(){
+        return 'http://dev.revolutionsmultimedia.com';
+    }
     public function sendData($data) {
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $data)->send();
+        $url = $this->getEndpoint().'?'.http_build_query($data, '', '&');
+        $httpResponse = $this->httpClient->get($url)->send();
 
-        return $this->response = new Response($this, $httpResponse->getBody());
+        return $this->createResponse($httpResponse->getBody());
     }
 
     public function getEndpoint() {
@@ -113,13 +125,18 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data['sid'] = $this->getSID();
         $data['rcode'] = $this->getRCode();
         $data['country'] = $this->getCountry();
+        $data['summary'] = $this->getSummary();
+        $data['currency_code'] = $this->getCurrencycode();
         $data['addfee'] = $this->getAddFee();
         if(!$data['addfee']) {
             $data['cart'] = $this->getCart();    
         }
-        $data['summary'] = $this->getSummary();
         $data['items'] = $this->getItems();
         
         return $data;
+    }
+    
+    protected function createResponse($data)    {
+        return $this->response = new Response($this, $data);
     }
 }

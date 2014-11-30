@@ -7,11 +7,13 @@ use Omnipay\Tests\GatewayTestCase;
 use Omnipay\Common\CreditCard;
 
 class SublimeGatewayTest extends GatewayTestCase{
-    public $options;
+    protected $options;
+    protected $gateway;
+    
     public function setUp(){
         parent::setUp();
         
-        $this->gateway = new \Omnipay\SublimeTest\SublimeGateway($this->getHttpClient(), $this->getHttpRequest());
+        $this->gateway = new SublimeGateway($this->getHttpClient(), $this->getHttpRequest());
       
         
         $this->options = [
@@ -20,7 +22,7 @@ class SublimeGatewayTest extends GatewayTestCase{
             'country' => 'AU',
             'addfee' => true,
             'summary' => 'Purchase Items',
-            'currency_code' => 'AUD',
+            'currencycode' => 'AUD',
             'items' => [
                 ['name' => 'Item One', 'quantity' => 2, 'amount_unit' => '19.99', 'item_no' => '012312', 'item_desc' => 'Item One'],
                 ['name' => 'Item Two', 'quantity' => 1, 'amount_unit' => '24.99', 'item_no' => '527595', 'item_desc' => 'Item Two']
@@ -32,11 +34,10 @@ class SublimeGatewayTest extends GatewayTestCase{
         $this->setMockHttpResponse('PurchaseSuccess.txt');
 
         $response = $this->gateway->purchase($this->options)->send();
-        
-        file_put_contents('/var/www/omnipay/vars.txt',$response,FILE_APPEND);
+
         $this->assertTrue($response->isSuccessful());
         $this->assertJsonStringEqualsJsonFile(dirname(__FILE__).'/Asserts/success.json', $response->getResponseJson());
-        $this->assertEquals($response->getMessage());
+        $this->assertEquals($response->getMessage(),null);
     }
 
     public function testPurchaseFail() {

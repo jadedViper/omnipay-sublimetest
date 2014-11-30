@@ -21,7 +21,7 @@ class SublimeGateway extends AbstractGateway
             'addfee' => false,
             'cart' => [],
             'summary' => [],
-            'currency_code' => '',
+            'currencycode' => '',
             'items' => [],
         ];
     }
@@ -55,23 +55,24 @@ class SublimeGateway extends AbstractGateway
     }
     
     public function setAddfee($value) {
-        $this->setParameter('addfree', $value);
+        $this->setParameter('addfee', $value);
         return $this;
     }
 
     public function getAddfee() {
-        return $this->getParameter('addfree');
+        return $this->getParameter('addfee');
     }
- 
-    public function setCurrency_code($value) {
-        $this->setParameter('currency_code', $value);
+
+    public function setCurrencycode($value) {
+        $this->setParameter('currencycode', $value);
         return $this;
     }
     
-    public function getCurrency_code() {
-        return $this->getParameter('currency_code');
+    public function getCurrencycode() {
+        $param = $this->getParameter('currencycode');
+        return $param;
     }
-   
+
     public function getCart(){
         return $this->getParameter('cart');
     }
@@ -100,7 +101,6 @@ class SublimeGateway extends AbstractGateway
     }
     
     public function purchase(array $parameters = array()) {
-        
          return $this->createRequest('\Omnipay\SublimeTest\Message\PurchaseRequest', $parameters);
     }
 }
